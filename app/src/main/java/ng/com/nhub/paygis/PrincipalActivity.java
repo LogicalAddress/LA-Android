@@ -1,5 +1,6 @@
 package ng.com.nhub.paygis;
 
+import android.app.Dialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
@@ -11,10 +12,14 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -22,19 +27,29 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
-
-//import com.facebook.appevents.AppEventsLogger;
-import com.facebook.appevents.AppEventsLogger;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.MultiFormatReader;
 import com.google.zxing.NotFoundException;
 import com.google.zxing.RGBLuminanceSource;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
+import com.parse.ParseUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,6 +58,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.util.List;
 
 import ng.com.nhub.paygis.address.Remote;
 import ng.com.nhub.paygis.etc.AppData;
@@ -50,16 +66,23 @@ import ng.com.nhub.paygis.etc.ApplicationLoader;
 import ng.com.nhub.paygis.etc.BuildVars;
 import ng.com.nhub.paygis.lib.FileLog;
 import ng.com.nhub.paygis.lib.LocaleController;
+import ng.com.nhub.paygis.lib.ParseLib;
+import ng.com.nhub.paygis.lib.ShakeDetector;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class PrincipalActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        HomeFragment.OnFragmentInteractionListener, TraceTargetFragment.OnFragmentInteractionListener{
+        HomeFragment.OnFragmentInteractionListener,
+        DialPadFragment.HostInterface,
+        PostsFragment.OnMessageListScrollListener,
+        PostsFragment.OnMessageListFragmentInteractionListener,
+        DialPadFragment.OnFragmentInteractionListener, View.OnClickListener{
 
 
     public static final int NOTIFICATION_ID = 0;
@@ -69,26 +92,45 @@ public class PrincipalActivity extends AppCompatActivity
     ActionBarDrawerToggle drawerToggle;
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private final OkHttpClient client = new OkHttpClient();
+    ImageButton floatingMenuDialPad;
+    FrameLayout floatingDialpadContainer;
+
+    private boolean mIsDialpadShown = false;
+    private DialPadFragment mDialpadFragment;
+
+    private boolean isCommentFragShown = false;
+    /**
+     * Fragment containing the speed dial list, recents list, and all contacts list.
+     */
+    private PostsFragment mListsFragment = new PostsFragment();
+    Toolbar toolbar;
+
+    Dialog setUserDialog;
+
+    private SensorManager mSensorManager;
+    Sensor mAccelerometer;
+    ShakeDetector mShakeDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(BuildVars.DEBUG_VERSION){
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            setTheme(R.style.AppDebugTheme);
+        }
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_principal);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        floatingMenuDialPad = (ImageButton) findViewById(R.id.floating_action_menu_dial_pad);
+        floatingDialpadContainer = (FrameLayout) findViewById((R.id.floating_action_dialpad_container));
+        if(BuildVars.DEBUG_VERSION){
+            floatingDialpadContainer.setBackgroundResource(R.drawable.fab_debug);
+        }
+        floatingMenuDialPad.setOnClickListener(this);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerToggle = new ActionBarDrawerToggle(
@@ -98,16 +140,25 @@ public class PrincipalActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        TraceTargetFragment defaultDisplayFragment = new TraceTargetFragment();
-        defaultDisplayFragment.setArguments(getIntent().getExtras());
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, defaultDisplayFragment).commit();
-
+        View headerLayout = navigationView.getHeaderView(0);
+        if(BuildVars.DEBUG_VERSION){
+            headerLayout.setBackgroundResource(R.drawable.side_nav_bar_debug);
+        }
 
         Intent intent = getIntent();
         String lAViaIntent = intent.getStringExtra("logicalAddress");
         Uri lQRAddressViaIntent = intent.getParcelableExtra("logicalQRAddress");
+
+        if(intent.getBooleanExtra("newLogin", false)){
+            ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+            installation.put("username", AppData.getCurrentUser().username);
+            installation.saveInBackground();
+            ParsePush.subscribeInBackground("news");
+        }
+
+        if(intent.getBooleanExtra("push_available", false)){
+            Toast.makeText(this, "Push_available is true", Toast.LENGTH_LONG);
+        }
 
         if(lAViaIntent != null){
             processTextWithLogicalAddress(lAViaIntent);
@@ -116,6 +167,40 @@ public class PrincipalActivity extends AppCompatActivity
         if(lQRAddressViaIntent != null){
             processImageWithQRCode(lQRAddressViaIntent);
         }
+
+        if(intent != null) {
+
+            if (intent.getExtras()!= null &&
+                    getIntent().getExtras().getBoolean("parse")) {
+                // Get Parse Notification here if interested.
+                Toast.makeText(this, "default: get parse notification", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        // Add the favorites fragment but only if savedInstanceState is null. Otherwise the
+        // fragment manager is responsible for recreating it.
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_news_container, mListsFragment)
+                    .commit();
+        }
+
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mShakeDetector = new ShakeDetector();
+        mShakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
+            boolean flag = false;
+            @Override
+            public void onShake(int count) {
+                if (flag){
+                    hideFloatingDialpad();
+                    flag = false;
+                }else{
+                    showFloatingDialpad();
+                    flag = true;
+                }
+            }
+        });
     }
 
     private void processTextWithLogicalAddress(String LARaw){
@@ -127,6 +212,200 @@ public class PrincipalActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
         callAddress(uri.toString());
+    }
+
+    @Override
+    public void onClickOnNewPost() {
+        Intent intent = new Intent(this, NewPostActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void openSetUserNameDialog() {
+        setUserDialog = new Dialog(this);
+        setUserDialog.setContentView(R.layout.set_username_dialog);
+        setUserDialog.setCancelable(false);
+        Button btnSave = (Button) setUserDialog.findViewById(R.id.btnSave);
+        TextView btnCancel = (TextView) setUserDialog.findViewById(R.id.btnCancel);
+        btnCancel.setText(Html.fromHtml("<u>"+LocaleController.getString("Cancel", R.string.Cancel)+"</u>"));
+        btnSave.setText(LocaleController.getString("Save", R.string.Save));
+
+        final EditText userHandle = (EditText) setUserDialog.findViewById(R.id.userHandle);
+        setUserDialog.show();
+
+        btnCancel.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if(setUserDialog != null){
+                    //Which ever works.
+                    setUserDialog.dismiss();
+                    setUserDialog.cancel();
+                    setUserDialog = null;
+                }
+                onClickOnNewPost();
+            }
+        });
+
+        btnSave.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                String handle = userHandle.getText().toString();
+                if (handle != null && handle.length() >= 3){
+                    ParseUser currentUser = ParseUser.getCurrentUser();
+                    if (currentUser != null) {
+                        currentUser.put("handle", handle);
+                        currentUser.saveEventually();
+                    }else{
+                        Log.e("RETNAN", "Investigate - PrincipalActivity");
+                        ParseLib.parseSignUpLogin(AppData.getCurrentUser());
+                    }
+                    if(setUserDialog != null){
+                        //Which ever works.
+                        setUserDialog.dismiss();
+                        setUserDialog.cancel();
+                        setUserDialog = null;
+                    }
+                    onClickOnNewPost();
+                }else{
+                    Toast.makeText(PrincipalActivity.this, "Must be greater than 3 letters", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    private void showDialpadFragment(){
+
+        if (mIsDialpadShown){
+            return;
+        }
+        mIsDialpadShown = true;
+
+//        mListsFragment.setUserVisibleHint(false);
+
+        final android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+        if (mDialpadFragment == null) {
+            mDialpadFragment = new DialPadFragment();
+            mDialpadFragment.setArguments(getIntent().getExtras());
+            ft.add(R.id.fragment_dialer_container, mDialpadFragment);
+        } else {
+            ft.show(mDialpadFragment);
+        }
+        ft.commit();
+        hideFloatingDialpad();
+        toolbar.setVisibility(View.GONE);
+    }
+
+
+    public void hideDialpadFragment(boolean animate, boolean clearDialpad) {
+        if (mDialpadFragment == null || mDialpadFragment.getView() == null) {
+            return;
+        }
+        if (clearDialpad) {
+//            mDialpadFragment.clearDialpad();
+        }
+        if (!mIsDialpadShown) {
+            return;
+        }
+        mIsDialpadShown = false;
+        commitDialpadFragmentHide();
+//        mDialpadFragment.setAnimate(animate);
+//        mListsFragment.setUserVisibleHint(true);
+//        mListsFragment.sendScreenViewForCurrentPosition();
+
+//        mFloatingActionButtonController.align(getFabAlignment(), animate);
+//        if (animate) {
+//            mDialpadFragment.getView().startAnimation(mSlideOut);
+//        } else {
+//            commitDialpadFragmentHide();
+//        }
+        showFloatingDialpad();
+        toolbar.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Finishes hiding the dialpad fragment after any animations are completed.
+     */
+    private void commitDialpadFragmentHide() {
+        if (mDialpadFragment != null && !mDialpadFragment.isHidden()) {
+            final android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.hide(mDialpadFragment);
+            ft.commit();
+        }
+//        mFloatingActionButtonController.scaleIn(AnimUtils.NO_DELAY);
+    }
+
+    @Override
+    public void onClick(View v) {
+        int res = v.getId();
+        switch (res){
+            case R.id.floating_action_menu_dial_pad:
+                showDialpadFragment();
+                break;
+            default:
+                Log.d("PrincipalActivity", "Invalid View Clicked");
+                Log.d("PrincipalActivity", "resId: "+String.valueOf(res));
+        }
+    }
+
+    @Override
+    public boolean onDialpadSpacerTouchWithEmptyQuery() {
+        hideDialpadFragment(false, false);
+        return false;
+    }
+
+    @Override
+    public void onMessageListFragmentInteraction(int actionCode) {
+        if (actionCode == PostsFragment.COMMENT_FRAG_OPEN){
+            isCommentFragShown = true;
+            hideFloatingDialpad();
+            toolbar.setVisibility(View.GONE);
+        }
+    }
+
+    private void hideFloatingDialpad(){
+        floatingDialpadContainer.setVisibility(View.GONE);
+    }
+
+    private void showFloatingDialpad(){
+        floatingDialpadContainer.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onMessageListScroll(RecyclerView recyclerView, int newState) {
+
+//        LinearLayoutManager linearManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+//        if(linearManager.findFirstCompletelyVisibleItemPosition() == 0){
+//            toolbar.setVisibility(View.VISIBLE);
+//        }else{
+//            if(recyclerView.getChildCount() > 2){
+//                toolbar.setVisibility(View.GONE);
+//            }
+//        }
+
+//        if(RecyclerView.SCROLL_STATE_DRAGGING == newState){
+//            if(linearManager.findFirstCompletelyVisibleItemPosition() == 0){
+//                toolbar.setVisibility(View.VISIBLE);
+//            }else{
+//                toolbar.setVisibility(View.INVISIBLE);
+//            }
+//        }else if(RecyclerView.SCROLL_STATE_SETTLING == newState){
+//           if(linearManager.findFirstCompletelyVisibleItemPosition() == 0){
+//                toolbar.setVisibility(View.VISIBLE);
+//            }else{
+//                toolbar.setVisibility(View.INVISIBLE);
+//            }
+//        }else{
+//            if(linearManager.findFirstCompletelyVisibleItemPosition() == 0){
+//                toolbar.setVisibility(View.VISIBLE);
+//            }else{
+//                toolbar.setVisibility(View.INVISIBLE);
+//            }
+//        }
     }
 
     class ProcessQRCode extends AsyncTask<Uri, Void, Result> {
@@ -323,15 +602,42 @@ public class PrincipalActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        }
+
+        if (mIsDialpadShown) {
+            hideDialpadFragment(true, false);
+        } else if(isCommentFragShown){
+            hideCommentFragment(true);
+        }else{
             super.onBackPressed();
         }
 
         drawerToggle.setDrawerIndicatorEnabled(true);
     }
 
+    private void hideCommentFragment(boolean animate){
+        if (!isCommentFragShown) {
+            return;
+        }
+
+        if (mListsFragment != null && !mListsFragment.isHidden()) {
+            FragmentTransaction ft = mListsFragment.getChildFragmentManager().beginTransaction();
+            List<Fragment> fragments = mListsFragment.getChildFragmentManager().getFragments();
+            for(Fragment fragment : fragments){
+                if(fragment.isVisible()){
+                    ft.detach(fragment);
+                }
+            }
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
+            ft.commit();
+        }
+        isCommentFragShown = false;
+        showFloatingDialpad();
+        toolbar.setVisibility(View.VISIBLE);
+    }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 2 && data != null) {
@@ -373,6 +679,15 @@ public class PrincipalActivity extends AppCompatActivity
             }case R.id.nav_work:{
                 Intent intent = new Intent(this, WorkActivity.class);
                 startActivity(intent);
+                return true;
+            }case R.id.action_write:{
+                ParseUser currentUser = ParseUser.getCurrentUser();
+                if(currentUser.getString("handle") == "Anonymous" ||
+                        currentUser.getString("handle").equals("Anonymous")){
+                    openSetUserNameDialog();
+                }else{
+                    onClickOnNewPost();
+                }
                 return true;
             }
         }
@@ -579,16 +894,20 @@ public class PrincipalActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-
-        // Logs 'install' and 'app activate' App Events.
-        AppEventsLogger.activateApp(this);
+        if(mListsFragment.isVisible()){
+            mListsFragment.hideWelcomeCardIfVisible();
+        }
+        mSensorManager.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        mSensorManager.unregisterListener(mShakeDetector);
+    }
 
-        // Logs 'app deactivate' App Event.
-        AppEventsLogger.deactivateApp(this);
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

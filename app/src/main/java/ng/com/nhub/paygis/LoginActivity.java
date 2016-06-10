@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,8 +14,16 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.facebook.accountkit.AccountKitLoginResult;
+import com.facebook.accountkit.ui.AccountKitActivity;
+import com.facebook.accountkit.ui.AccountKitConfiguration;
+import com.facebook.accountkit.ui.LoginType;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,15 +37,15 @@ import ng.com.nhub.paygis.etc.BuildVars;
 import ng.com.nhub.paygis.etc.User;
 import ng.com.nhub.paygis.lib.FileLog;
 import ng.com.nhub.paygis.lib.LocaleController;
+import ng.com.nhub.paygis.lib.ParseLib;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -50,11 +56,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText phoneEdit;
     private EditText passwordEdit;
     private TextView loginBtn;
+    public static int APP_REQUEST_CODE = 99;
 
     private final OkHttpClient client = new OkHttpClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(BuildVars.DEBUG_VERSION){
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            setTheme(R.style.AppDebugTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -73,10 +84,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         phoneEdit = (EditText) findViewById(R.id.mobileNumber);
         passwordEdit = (EditText) findViewById(R.id.password);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         TextView registerText = (TextView) findViewById(R.id.tRegister);
         registerText.setOnClickListener(this);
+        Button accountKit = (Button) findViewById(R.id.btnAccountKit);
+        accountKit.setOnClickListener(this);
 
         loginBtn = (TextView) findViewById(R.id.btnLogin);
         loginBtn.setOnClickListener(this);
@@ -163,6 +174,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    ParseLib.parseSignUpLogin(AppData.getCurrentUser());
                                     postLoginAction(); //TODO: Pub Sub
                                 }
                             });
@@ -207,10 +219,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void postLoginAction(){
 
-
         Intent principalIntent = new Intent(getApplicationContext(), PrincipalActivity.class);
         // principalIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         principalIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        principalIntent.putExtra("newLogin", true);
         startActivity(principalIntent);
         finish(); // I die too.
     }
@@ -282,7 +294,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         switch (view.getId()) {
             case R.id.tRegister: {
-                this.onBackPressed();
+                Intent principalIntent = new Intent(this, RegisterActivity.class);
+                startActivity(principalIntent);
                 return;
             }case R.id.btnLogin: {
                 if (startPressed) {
@@ -290,7 +303,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
                 startPressed = true;
                 doLoginUser();
-            }default: {
+                return;
+            }case R.id.btnAccountKit:{
+                onLoginPhone(view);
+                return;
+            } default:{
                 FileLog.e("tmessages", "Unexpected onClick() event from: " + view);
                 return;
             }
@@ -324,5 +341,64 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onLoginPhone(final View view) {
+        final Intent intent = new Intent(LoginActivity.this, AccountKitActivity.class);
+        AccountKitConfiguration.AccountKitConfigurationBuilder configurationBuilder =
+                new AccountKitConfiguration.AccountKitConfigurationBuilder(
+                        LoginType.PHONE,
+                        AccountKitActivity.ResponseType.CODE); // or .ResponseType.TOKEN
+        // ... perform additional configuration ...
+        configurationBuilder.setTitleType(AccountKitActivity.TitleType.LOGIN);
+        configurationBuilder.setReceiveSMS(true);
+        configurationBuilder.setFacebookNotificationsEnabled(true);
+        intent.putExtra(
+                AccountKitActivity.ACCOUNT_KIT_ACTIVITY_CONFIGURATION,
+                configurationBuilder.build());
+        startActivityForResult(intent, APP_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode,final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == APP_REQUEST_CODE) { // confirm that this response matches your request
+            AccountKitLoginResult loginResult = data.getParcelableExtra(AccountKitLoginResult.RESULT_KEY);
+            String toastMessage;
+            if (loginResult.getError() != null) {
+                needShowAlert(loginResult.getError().getErrorType().getMessage());
+                return;
+            } else if (loginResult.wasCancelled()) {
+                if(loginResult.getError() == null) return;
+                needShowAlert(loginResult.getError().getErrorType().getMessage());
+                Log.i("ACCOUNT-KIT", loginResult.getError().toString());
+                return;
+            } else {
+                if (loginResult.getAccessToken() != null) {
+                    String accountId = loginResult.getAccessToken().getAccountId();
+                    needShowAlert(loginResult.getAccessToken().getAccountId());
+                    return;
+                } else {
+                    toastMessage = String.format(
+                            "Success:%s...",
+                            loginResult.getAuthorizationCode().substring(0,10));
+                }
+
+                // If you have an authorization code, retrieve it from
+                // loginResult.getAuthorizationCode()
+                // and pass it to your server and exchange it for an access token.
+
+                // Success! Start your next activity...
+                // goToMyLoggedInActivity();
+            }
+
+            // Surface the result to your user in an appropriate way.
+            Toast.makeText(this, toastMessage, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

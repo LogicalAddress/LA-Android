@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginLeft="@dimen/news_horizontal_margin"
+    android:layout_marginRight="@dimen/news_horizontal_margin"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="10dp">
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/face"
+        android:scaleType="fitCenter"
+        android:id="@+id/face"
+        android:layout_marginRight="4dp"
+        android:layout_toRightOf="@+id/post_category"
+        android:layout_toEndOf="@+id/post_category"
+        android:visibility="visible" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Anonymous"
+        android:textAppearance="@style/TextAppearance.FontPath"
+        android:id="@+id/title"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:layout_toRightOf="@+id/face"
+        android:gravity="center_vertical"
+        android:layout_toEndOf="@+id/face"
+        android:visibility="visible" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="#Social"
+        android:layout_toRightOf="@+id/title"
+        android:layout_toEndOf="@+id/title"
+        android:textColor="#b5b2b2"
+        android:id="@+id/category"
+        android:layout_marginLeft="2dp"/>
+
+    <com.github.curioustechizen.ago.RelativeTimeTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/title"
+        android:gravity="right|top"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:id="@+id/timeAgo"
+        android:text="time"
+        android:textColor="#8a8989" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/milesaway"
+        android:layout_below="@+id/title"
+        android:layout_toRightOf="@+id/face"
+        android:id="@+id/imageView2"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="2dp"
+        android:textSize="11sp"
+        android:text="8km"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/title"
+        android:layout_toRightOf="@+id/imageView2" />
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/full_rating"
+        style="?android:attr/ratingBarStyleSmall"
+        android:numStars="5"
+        android:paddingLeft="2dp"
+        android:rating="0"
+        android:max="5"
+        android:layout_toRightOf="@+id/textView2"
+        android:layout_below="@+id/title"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="2dp"
+        android:textSize="11sp"
+        android:layout_below="@+id/title"
+        android:text="3 Raters"
+        android:layout_toRightOf="@+id/full_rating"
+        android:id="@+id/num_raters" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/num_comments"
+        android:paddingLeft="2dp"
+        android:textSize="11sp"
+        android:text="5 Comments"
+        android:layout_below="@+id/title"
+        android:layout_toRightOf="@+id/num_raters"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:paddingTop="10dp"
+        android:id="@+id/description"
+        android:maxLength="140"
+        android:textAppearance="@style/TextAppearance.PostText"
+        android:gravity="top"
+        android:lineSpacingExtra="7dp"
+        android:layout_below="@+id/face"
+        android:text="gve wafss sssdyh fbckjds hgfchj"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/postImageHeightLayout"
+        android:id="@+id/mediaLayout"
+        android:layout_below="@+id/description">
+
+    </RelativeLayout>
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rating"
+        android:numStars="5"
+        android:max="5"
+        android:rating="1"
+        android:theme="@style/LARatingBar"
+        android:layout_below="@+id/mediaLayout"
+        />
+
+    <Button
+        android:id="@+id/btn_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#f5f5f5"
+        android:textSize="12sp"
+        android:text="Comment"
+        android:layout_toRightOf="@+id/rating"
+        android:layout_below="@+id/mediaLayout" />
+
+</RelativeLayout>

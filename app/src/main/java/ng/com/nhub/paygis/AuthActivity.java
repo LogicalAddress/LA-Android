@@ -12,7 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 
+import ng.com.nhub.paygis.etc.BuildVars;
 import ng.com.nhub.paygis.lib.AndroidUtilities;
 import ng.com.nhub.paygis.lib.LocaleController;
 
@@ -25,6 +27,10 @@ public class AuthActivity extends AppCompatActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(BuildVars.DEBUG_VERSION){
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            setTheme(R.style.AppDebugTheme);
+        }
         super.onCreate(savedInstanceState);
 
         if (AndroidUtilities.isTablet()) {
@@ -44,7 +50,8 @@ public class AuthActivity extends AppCompatActivity implements
 
         }else{
 
-            Intent registerIntent = new Intent(AuthActivity.this, RegisterActivity.class);
+//            Intent registerIntent = new Intent(AuthActivity.this, RegisterActivity.class);
+            Intent registerIntent = new Intent(AuthActivity.this, LoginActivity.class);
             startActivity(registerIntent);
             finish();
         }

@@ -13,7 +13,8 @@
     <string name="map">Map</string>
     <string name="OK">OK</string>
     <string name="Cancel">Cancel</string>
-    <string name="mobile">Phone Number</string>
+    <string name="Save">Save</string>
+    <string name="mobile">Username</string>
     <string name="beforeqrmessage">Your Logical Address</string>
     <string name="requestShortCode">Click here to request an alternative numeric logical address for free.</string>
     <string name="password">Secret Password</string>
@@ -51,7 +52,7 @@
     <string name="Loading">Loading</string>
     <string name="LoadingWait">Loading, please wait</string>
     <string name="GPSSettingsOff">Your GPS is off. Would you like to open GPS setting?</string>
-    <string name="about">Made with love @ nHub Nigeria</string>
+    <string name="about">Made with \u2661 @nHubNigeria</string>
     <string name="LoadingMap">Loading Map..</string>
 
     <string name="review_entries">Please review your entries</string>
@@ -94,6 +95,7 @@
     <string name="title_activity_principal">Logical Address</string>
 
     <string name="action_scan">Scan</string>
+    <string name="action_write">Write</string>
     <string name="action_settings">Settings</string>
     <string name="action_back">Back</string>
 
@@ -210,5 +212,18 @@
     <string name="share">Share</string>
     <string name="show_location">Show location</string>
     <string name="title_activity_test">TestActivity</string>
+    <string name="action_menu_dialpad_button">action_menu_dialpad_button</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_new_post">Post</string>
+    <string name="welcome">Logical Address is connecting every sector of the society, improving <b>commercial</b> services, <b>governance</b>, <b>police and security</b> services, <b>fire and ambulance</b> services etc.</string>
+    <string name="discover">Also, discover amazing content around you.</string>
+    <string name="welcome_header">Welcome</string>
+    <string name="call_action">GET STARTED</string>
+    <string name="action_add_photo">Photo</string>
+    <string name="comment">Comment</string>
+    <string name="login_accountKit">Use Mobile Number</string>
+    <string name="accountKit"><i>New!</i> No registration is required, use your mobile number to register or login automatically.</string>
+    <string name="oldLogin">Alternatively, you can use the traditional username and password.</string>
 </resources>

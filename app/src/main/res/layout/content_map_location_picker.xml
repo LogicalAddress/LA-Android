@@ -86,7 +86,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Long press the maker and drag to move it"
+                android:text="Long press the marker and drag to move it"
                 android:textSize="15sp"
                 android:layout_marginTop="8dp"
                 android:textColor="#ff757575" />

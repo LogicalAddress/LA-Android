@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="ng.com.nhub.paygis">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <!--
+    GET_ACCOUNTS is only required for GCM on devices running Android lower than
+    4.0.4. You may leave out this permission if you are targetting 4.0.4+.
+    -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
+    <permission
+        android:name="ng.com.nhub.paygis.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="ng.com.nhub.paygis.permission.C2D_MESSAGE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true"/>
+
+    <application
+        android:name=".etc.ApplicationLoader"
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="FACEBOOK_APP_ID" />
+        <meta-data android:name="com.facebook.accountkit.ClientToken"
+            android:value="ACCOUNT_KIT_ID" />
+        <meta-data android:name="com.facebook.accountkit.ApplicationName"
+            android:value="@string/app_name" />
+        <meta-data android:name="com.facebook.accountkit.FacebookAppEventsEnabled"
+            android:value="true"/>
+
+        <activity
+            android:name="com.facebook.accountkit.ui.AccountKitActivity"
+            android:theme="@style/AppLoginTheme"
+            tools:replace="android:theme"/>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="ng.com.nhub.paygis.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
+
+        <activity
+            android:name=".LaunchActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="image/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".RegisterActivity"
+            android:label="@string/title_activity_register"
+            android:parentActivityName=".LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ng.com.nhub.paygis.LoginActivity" />
+        </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login"
+            android:parentActivityName=".AuthActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ng.com.nhub.paygis.AuthActivity" />
+        </activity>
+        <activity
+            android:name=".HomeRegisterActivity"
+            android:label="@string/title_activity_home_register"
+            android:parentActivityName=".PrincipalActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ng.com.nhub.paygis.PrincipalActivity" />
+        </activity>
+        <activity
+            android:name=".WorkRegisterActivity"
+            android:label="@string/title_activity_work_register"
+            android:parentActivityName=".PrincipalActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ng.com.nhub.paygis.PrincipalActivity" />
+        </activity>
+        <activity
+            android:name=".TraceTargetActivity"
+            android:label="@string/title_activity_trace_target" />
+        <activity
+            android:name=".IntroActivity"
+            android:label="@string/title_activity_intro"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".PrincipalActivity"
+            android:label="@string/title_activity_principal"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AuthActivity"
+            android:label="@string/title_activity_auth"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".HomeActivity"
+            android:label="@string/title_activity_home"
+            android:parentActivityName=".PrincipalActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ng.com.nhub.paygis.PrincipalActivity" />
+        </activity>
+        <activity
+            android:name=".WorkActivity"
+            android:label="@string/title_activity_work"
+            android:parentActivityName=".PrincipalActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ng.com.nhub.paygis.PrincipalActivity" />
+        </activity>
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about"
+            android:parentActivityName=".PrincipalActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ng.com.nhub.paygis.PrincipalActivity" />
+        </activity>
+        <activity
+            android:name=".QRCodeScannerActivity"
+            android:label="@string/title_activity_qrcode_scanner"
+            android:parentActivityName=".PrincipalActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ng.com.nhub.paygis.PrincipalActivity" />
+        </activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="GOOGLE_GEO_API_KEY" />
+
+        <activity
+            android:name=".MapPreviewActivity"
+            android:label="@string/title_activity_map_preview"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MapLocationPickerActivity"
+            android:label="@string/title_activity_map_location_picker"
+            android:parentActivityName=".PrincipalActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ng.com.nhub.paygis.PrincipalActivity" />
+        </activity>
+        <activity
+            android:name=".TraceMapFullscreenActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_trace_map_fullscreen"
+            android:theme="@style/FullscreenTheme" />
+
+        <!-- <activity -->
+        <!-- android:name=".TestActivity" -->
+        <!-- android:label="@string/title_activity_test" -->
+        <!-- android:theme="@style/AppTheme.NoActionBar"> -->
+
+
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+
+
+        <!-- </activity> -->
+
+        <service android:name="com.parse.PushService" />
+
+        <receiver
+            android:name=".services.PushReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.parse.push.intent.RECEIVE" />
+                <action android:name="com.parse.push.intent.DELETE" />
+                <action android:name="com.parse.push.intent.OPEN" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.parse.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="ng.com.nhub.paygis" />
+            </intent-filter>
+        </receiver>
+
+        <meta-data
+            android:name="com.parse.push.gcm_sender_id"
+            android:value="id:GCM_SENDER_ID" />
+
+        <!-- <meta-data android:name="com.parse.push.notification_icon" -->
+        <!-- android:resource="@drawable/push_icon"/> -->
+
+        <activity
+            android:name=".NewPostActivity"
+            android:label="@string/title_activity_new_post"
+            android:parentActivityName=".PrincipalActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateVisible">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ng.com.nhub.paygis.PrincipalActivity" />
+        </activity>
+        <activity
+            android:name=".ImageViewer"
+            android:theme="@style/AppTheme.NoToolBar" />
+    </application>
+
+</manifest>

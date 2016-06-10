@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginLeft="@dimen/news_horizontal_margin"
+    android:layout_marginRight="@dimen/news_horizontal_margin"
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/face"
+        android:scaleType="fitCenter"
+        android:id="@+id/face"
+        android:layout_marginRight="@dimen/news_horizontal_margin"
+        android:visibility="visible" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Anonymous"
+        android:textAppearance="@style/TextAppearance.FontPath"
+        android:id="@+id/title"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:layout_toRightOf="@+id/face"
+        android:gravity="center_vertical"
+        android:layout_toEndOf="@+id/face"
+        android:visibility="visible" />
+
+    <com.github.curioustechizen.ago.RelativeTimeTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/title"
+        android:gravity="right|top"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:id="@+id/timeAgo"
+        android:text="time"
+        android:textColor="#8a8989" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:paddingTop="5dp"
+        android:id="@+id/description"
+        android:maxLength="140"
+        android:textAppearance="@style/TextAppearance.PostText"
+        android:gravity="top"
+        android:lineSpacingExtra="7dp"
+        android:layout_below="@+id/title"
+        android:layout_toRightOf="@+id/face"
+        android:text="gve wafss sssdyh fbckjds hgfchj"/>
+
+</RelativeLayout>

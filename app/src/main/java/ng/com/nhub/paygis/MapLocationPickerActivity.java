@@ -28,6 +28,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,8 +41,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import ng.com.nhub.paygis.etc.BuildVars;
 import ng.com.nhub.paygis.lib.FileLog;
 import ng.com.nhub.paygis.lib.LocaleController;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MapLocationPickerActivity extends AppCompatActivity implements
         GoogleMap.OnMapLongClickListener,
@@ -80,6 +83,10 @@ public class MapLocationPickerActivity extends AppCompatActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(BuildVars.DEBUG_VERSION){
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            setTheme(R.style.AppDebugTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_location_picker);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -361,6 +368,9 @@ public class MapLocationPickerActivity extends AppCompatActivity implements
 
     @Override
     public void onMapLongClick(LatLng latLng) {
+        currentLong = latLng.longitude;
+        currentLat = latLng.latitude;
+
         gMap.clear();
         gMap.addMarker(new MarkerOptions()
                 .position(latLng)
@@ -487,5 +497,10 @@ public class MapLocationPickerActivity extends AppCompatActivity implements
             // other 'case' lines to check for other
             // permissions this app might request
         }
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

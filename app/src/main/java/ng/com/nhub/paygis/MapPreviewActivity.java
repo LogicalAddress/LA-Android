@@ -1,5 +1,6 @@
 package ng.com.nhub.paygis;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -19,7 +21,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import ng.com.nhub.paygis.etc.BuildVars;
 import ng.com.nhub.paygis.lib.LocaleController;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MapPreviewActivity extends AppCompatActivity implements
         GoogleMap.OnMapClickListener,
@@ -37,6 +41,10 @@ public class MapPreviewActivity extends AppCompatActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(BuildVars.DEBUG_VERSION){
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            setTheme(R.style.AppDebugTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_preview);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -117,5 +125,10 @@ public class MapPreviewActivity extends AppCompatActivity implements
     @Override
     public void onMapClick(LatLng latLng) {
         mapFragment.getMap().animateCamera(CameraUpdateFactory.newLatLng(latLng));
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

@@ -1,6 +1,7 @@
 package ng.com.nhub.paygis;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import ng.com.nhub.paygis.etc.AppData;
 import ng.com.nhub.paygis.lib.FileLog;
 import ng.com.nhub.paygis.lib.LocaleController;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class TestActivity extends AppCompatActivity {
 
@@ -122,6 +124,11 @@ public class TestActivity extends AppCompatActivity {
             Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         return;
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
 }

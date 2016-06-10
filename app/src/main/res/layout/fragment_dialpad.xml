@@ -1,0 +1,167 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dialPadFragmentLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    tools:context=".DialPadFragment">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:fresco="http://schemas.android.com/apk/res-auto"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:background="#FFFFFF"
+        android:id="@+id/mock_container"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            fresco:placeholderImage="@drawable/face"
+            android:layout_marginTop="@dimen/news_vertical_margin"
+            android:layout_marginLeft="0dip"
+            android:layout_marginRight="@dimen/news_horizontal_margin"
+            android:scaleType="fitCenter"
+            android:id="@+id/face"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/face"
+            android:layout_alignLeft="@+id/description"
+            android:layout_alignStart="@+id/description"
+            android:id="@+id/news_header">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Retnan Daser"
+                android:id="@+id/title"
+                android:textStyle="bold"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#Social"
+                android:layout_marginLeft="2dp"
+                android:id="@+id/post_category"
+                android:textColor="#b5b2b2"
+                android:layout_weight="0.86"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0s"
+                android:id="@+id/timeAgo"
+                android:textColor="#8a8989" />
+        </LinearLayout>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_marginTop="2dp"
+            android:id="@+id/description"
+            android:gravity="top"
+            android:minLines="3"
+            android:hint="Double tap here to write a post."
+            android:lineSpacingExtra="3dp"
+            android:layout_below="@+id/news_header"
+            android:layout_toRightOf="@+id/face"
+            android:layout_toEndOf="@+id/face" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:gravity="center_horizontal"
+        android:textSize="16sp"
+        android:text="Dial to locate friends and family"/>
+
+    <!-- spacer view -->
+    <View
+        android:id="@+id/spacer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dialpad_top_space"
+        android:layout_weight="1"
+        android:background="#FFFFFF" />
+
+    <!-- Dialpad shadow -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/shadow_length"
+        android:background="@drawable/shadow_fade_up" />
+
+    <!-- Text field and possibly soft menu button above the keypad where
+         the digits are displayed. -->
+    <LinearLayout
+        android:id="@+id/digits_container"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="@integer/dialpad_layout_weight_digits"
+        android:gravity="center"
+        android:background="@drawable/dialpad_background" >
+        <ng.com.nhub.paygis.dialpad.DigitsEditText
+            android:id="@+id/digits"
+            android:layout_width="0dip"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textAppearance="@style/DialtactsDigitsTextAppearance"
+            android:textColor="#000000"
+            android:nextFocusRight="@+id/overflow_menu"
+            android:background="@android:color/transparent" />
+        <ImageButton
+            android:id="@+id/deleteButton"
+            android:layout_width="56dip"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:state_enabled="false"
+            android:background="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/description_delete_button"
+            android:src="@drawable/ic_backspace_24dp" />
+    </LinearLayout>
+
+    <!-- Keypad section -->
+    <include layout="@layout/dialpad" />
+
+    <!--<View style="@style/DialpadHorizontalSeparator"/>-->
+
+    <!-- left and right paddings will be modified by the code. See DialpadFragment. -->
+
+    <!--<Space android:id="@+id/dialpad_floating_action_button_margin_bottom"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="16dp"-->
+    <!--android:layout_alignParentBottom="true" />-->
+
+    <FrameLayout
+        android:id="@+id/dialButtonContainer"
+        android:background="@drawable/fab_green"
+        android:layout_width="@dimen/floating_action_button_width"
+        android:layout_height="@dimen/floating_action_button_height"
+        android:layout_marginBottom="@dimen/floating_action_button_margin_bottom"
+        android:layout_gravity="center_horizontal|bottom">
+
+        <ImageButton
+            android:id="@+id/dialButton"
+            android:background="@drawable/floating_action_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/action_menu_dialpad_button"
+            android:src="@drawable/fab_ic_call"/>
+
+    </FrameLayout>
+
+
+</LinearLayout>

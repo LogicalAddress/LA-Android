@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#FFFFFF"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="ng.com.nhub.paygis.NewPostActivity"
+    tools:showIn="@layout/activity_new_post">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        fresco:placeholderImage="@drawable/face"
+        android:layout_marginTop="@dimen/news_vertical_margin"
+        android:layout_marginLeft="0dip"
+        android:layout_marginRight="@dimen/news_horizontal_margin"
+        android:scaleType="fitCenter"
+        android:id="@+id/face"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/face"
+        android:layout_alignLeft="@+id/description"
+        android:layout_alignStart="@+id/description"
+        android:id="@+id/news_header">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Retnan Daser"
+            android:id="@+id/title"
+            android:textStyle="bold"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="#Social"
+            android:layout_marginLeft="2dp"
+            android:id="@+id/post_category"
+            android:textColor="#b5b2b2"
+            android:layout_weight="0.86"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0s"
+            android:id="@+id/timeAgo"
+            android:textColor="#8a8989" />
+    </LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:layout_marginTop="2dp"
+        android:id="@+id/description"
+        android:gravity="top"
+        android:minLines="3"
+        android:maxLength="140"
+        android:hint="Write and be heard up to 8km away"
+        android:lineSpacingExtra="3dp"
+        android:layout_below="@+id/news_header"
+        android:layout_toRightOf="@+id/face"
+        android:layout_toEndOf="@+id/face" />
+
+    <LinearLayout
+        android:layout_width="@dimen/postImageWidthLayout"
+        android:layout_height="@dimen/postImageHeightLayout"
+        android:id="@+id/imageLayout"
+        android:layout_toRightOf="@id/face"
+        android:layout_below="@id/description">
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            fresco:actualImageScaleType="fitXY"
+            android:layout_marginTop="3dp"
+            fresco:placeholderImage="@drawable/sample"
+            android:id="@+id/image" />
+    </LinearLayout>
+
+</RelativeLayout>

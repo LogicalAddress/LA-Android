@@ -1,6 +1,7 @@
 package ng.com.nhub.paygis;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -11,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -28,6 +30,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 //import com.loopj.android.http.AsyncHttpClient;
 //import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -49,6 +52,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(BuildVars.DEBUG_VERSION){
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            setTheme(R.style.AppDebugTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -68,6 +75,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         passwordEdit = (EditText) findViewById(R.id.password);
         motherEdit = (EditText) findViewById(R.id.mother);
         animalEdit = (EditText) findViewById(R.id.animal);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         TextView loginBtn = (TextView) findViewById(R.id.textLogin);
@@ -188,8 +197,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         switch (view.getId()) {
             case R.id.textLogin: {
-                Intent principalIntent = new Intent(this, LoginActivity.class);
-                startActivity(principalIntent);
+                onBackPressed();
                 return;
             }case R.id.btnRegister:{
 
@@ -286,5 +294,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

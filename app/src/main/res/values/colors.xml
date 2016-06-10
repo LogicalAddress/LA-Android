@@ -8,5 +8,7 @@
     <color name="black_overlay">#66000000</color>
     <color name="half_black">#808080</color>
     <color name="white">#fafafa</color>
+    <color name="poll_background">#b5b1b1</color>
     <color name="white_pressed">#f1f1f1</color>
+    <color name="floating_action_button_touch_tint">#80ffffff</color>
 </resources>

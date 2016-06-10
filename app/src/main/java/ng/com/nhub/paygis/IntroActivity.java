@@ -1,5 +1,6 @@
 package ng.com.nhub.paygis;
 
+import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -22,6 +24,7 @@ import android.widget.TextView;
 import ng.com.nhub.paygis.lib.AndroidUtilities;
 import ng.com.nhub.paygis.lib.LocaleController;
 import ng.com.nhub.paygis.lib.Utilities;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class IntroActivity extends AppCompatActivity {
 
@@ -42,9 +45,10 @@ public class IntroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         if (AndroidUtilities.isTablet()) {
             setContentView(R.layout.intro_layout_tablet);
@@ -307,5 +311,10 @@ public class IntroActivity extends AppCompatActivity {
                 super.unregisterDataSetObserver(observer);
             }
         }
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

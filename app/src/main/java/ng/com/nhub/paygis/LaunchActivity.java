@@ -7,19 +7,21 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Window;
 
-//import com.facebook.appevents.AppEventsLogger;
-
-import com.facebook.appevents.AppEventsLogger;
-
 import java.util.Map;
 
 import ng.com.nhub.paygis.etc.AppData;
 import ng.com.nhub.paygis.etc.ApplicationLoader;
+import ng.com.nhub.paygis.etc.BuildVars;
 
 public class LaunchActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        if(BuildVars.DEBUG_VERSION){
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            setTheme(R.style.AppDebugTheme);
+        }
 
         ApplicationLoader.postInitApplication();
 
@@ -84,6 +86,8 @@ public class LaunchActivity extends Activity {
                             return;
                         }
                     }
+                }else if(false){
+                    //if getActivity is not overridden in PushReceiver, Handle it here
                 }
             }
         }
@@ -115,17 +119,11 @@ public class LaunchActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        // Logs 'install' and 'app activate' App Events.
-        AppEventsLogger.activateApp(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
-        // Logs 'app deactivate' App Event.
-        AppEventsLogger.deactivateApp(this);
     }
 
 

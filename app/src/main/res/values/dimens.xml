@@ -3,6 +3,9 @@
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 
+    <dimen name="news_horizontal_margin">8dp</dimen>
+    <dimen name="news_vertical_margin">8dp</dimen>
+
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
@@ -10,18 +13,36 @@
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
     <dimen name="nav_header_height">160dp</dimen>
 
+    <dimen name="message_list_padding_bottom">73dip</dimen>
+
     <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
          https://developer.android.com/design/patterns/navigation-drawer.html -->
     <dimen name="navigation_drawer_width">240dp</dimen>
 
     <!-- Dialpad Stuffs-->
     <dimen name="dialpad_vertical_margin">2dip</dimen>
+    <dimen name="dialpad_top_space">10dip</dimen> <!--toolbar height included 56dp -->
+    <!--<dimen name="dialpad_top_space">126dip</dimen> &lt;!&ndash;toolbar height included 56dp &ndash;&gt;-->
 
     <!-- Layout weight values for dialpad screen. These layouts will be used in one
          LinearLayout (dialpad_fragment.xml), configuring dialpad screen's vertical
          ratio. -->
-    <integer name="dialpad_layout_weight_digits">15</integer>
-    <integer name="dialpad_layout_weight_dialpad">65</integer>
+    <integer name="dialpad_layout_weight_digits">12</integer>
+    <integer name="dialpad_layout_weight_dialpad">60</integer>
     <integer name="dialpad_layout_weight_additional_buttons">15</integer>
     <dimen name="dialpad_digits_text_size">35sp</dimen>
+    <!-- Height of the floating action button -->
+    <dimen name="floating_action_button_height">56dp</dimen>
+    <!-- Width of the floating action button -->
+    <dimen name="floating_action_button_width">56dp</dimen>
+    <!-- Bottom margin of the floating action button -->
+    <dimen name="floating_action_button_margin_bottom">16dp</dimen>
+    <!-- Length of dialpad's shadows in dialer. -->
+    <dimen name="shadow_length">10dp</dimen>
+
+    <!-- Borrowd from twitter-->
+    <dimen name="consumer_poll_card_button_corner_radius">5dp</dimen>
+    <dimen name="postImageWidthLayout">500dp</dimen>
+    <dimen name="postImageHeightLayout">300dp</dimen>
+
 </resources>

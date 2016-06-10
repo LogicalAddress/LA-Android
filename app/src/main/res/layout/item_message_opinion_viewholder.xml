@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_marginLeft="@dimen/news_horizontal_margin"
+    android:layout_marginRight="@dimen/news_horizontal_margin"
+    android:layout_height="wrap_content">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        fresco:placeholderImage="@drawable/face1"
+        android:layout_marginTop="@dimen/news_vertical_margin"
+        android:layout_marginLeft="0dip"
+        android:layout_marginRight="@dimen/news_horizontal_margin"
+        android:scaleType="fitCenter"
+        android:id="@+id/face"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/face"
+        android:layout_alignLeft="@+id/description"
+        android:layout_alignStart="@+id/description"
+        android:id="@+id/news_header">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Retnan Daser"
+            android:id="@+id/title"
+            android:textStyle="bold"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="#Opinion"
+            android:layout_marginLeft="2dp"
+            android:id="@+id/post_category"
+            android:textColor="#b5b2b2"
+            android:layout_weight="0.86"
+            />
+        <com.github.curioustechizen.ago.RelativeTimeTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2d"
+            android:id="@+id/timeAgo"
+            android:textColor="#8a8989" />
+    </LinearLayout>
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:layout_marginTop="2dp"
+        android:text="One day left! Apply now for @nHub's #NASA space apps challenge and stand a chance to win that mac book pro."
+        android:id="@+id/description"
+        android:gravity="top"
+        android:lineSpacingExtra="3dp"
+        android:layout_below="@+id/news_header"
+        android:layout_toRightOf="@+id/face"
+        android:layout_toEndOf="@+id/face" />
+
+    <LinearLayout
+        android:layout_width="@dimen/postImageWidthLayout"
+        android:layout_height="@dimen/postImageHeightLayout"
+        android:id="@+id/imageLayout"
+        android:layout_toRightOf="@id/face"
+        android:layout_below="@id/description">
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            fresco:actualImageScaleType="fitXY"
+            android:layout_marginTop="3dp"
+            fresco:placeholderImage="@drawable/sample"
+            android:id="@+id/image" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/spacer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/news_vertical_margin"
+        android:layout_below="@id/imageLayout"
+        android:background="#FFFFFF"
+        android:alpha="0.0"/>
+
+</RelativeLayout>

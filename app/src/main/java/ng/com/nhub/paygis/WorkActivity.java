@@ -1,6 +1,7 @@
 package ng.com.nhub.paygis;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -17,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -46,6 +48,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class WorkActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -68,6 +71,10 @@ public class WorkActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(BuildVars.DEBUG_VERSION){
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            setTheme(R.style.AppDebugTheme);
+        }
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_work);
@@ -374,6 +381,8 @@ public class WorkActivity extends AppCompatActivity implements View.OnClickListe
                 shortCodeTextView.setVisibility(View.GONE);
             }
         }else{
+            shortCodeTextView.setSingleLine();
+            shortCodeTextView.setMaxLines(1);
             shortCodeTextView.setVisibility(View.VISIBLE);
             shortCodeTextView.setText(AppData.getWork().shortcode);
             getShortCodeTextView.setVisibility(View.GONE);
@@ -683,6 +692,11 @@ public class WorkActivity extends AppCompatActivity implements View.OnClickListe
             requestShortCode();
         }
 
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
 }

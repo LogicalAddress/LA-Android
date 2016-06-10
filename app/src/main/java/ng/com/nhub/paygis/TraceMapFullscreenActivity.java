@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -29,8 +30,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import ng.com.nhub.paygis.etc.AppData;
 import ng.com.nhub.paygis.etc.ApplicationLoader;
+import ng.com.nhub.paygis.etc.BuildVars;
 import ng.com.nhub.paygis.lib.FileLog;
 import ng.com.nhub.paygis.lib.LocaleController;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -126,6 +129,11 @@ public class TraceMapFullscreenActivity extends AppCompatActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        if(BuildVars.DEBUG_VERSION){
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            setTheme(R.style.AppDebugTheme);
+        }
 
         ApplicationLoader.postInitApplication(); //in case
 
@@ -420,6 +428,11 @@ public class TraceMapFullscreenActivity extends AppCompatActivity implements
         } else {
             // gracefully handle failure
         }
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
 }

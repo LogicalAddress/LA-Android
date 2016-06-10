@@ -7,6 +7,9 @@ package ng.com.nhub.paygis.etc;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import ng.com.nhub.paygis.address.Home;
 import ng.com.nhub.paygis.address.Remote;
 import ng.com.nhub.paygis.address.Work;
@@ -227,6 +230,21 @@ public class AppData {
         workAddress.longitude = Double.parseDouble(preferences.getString("longitude", "0.0"));
         workAddress.latitude = Double.parseDouble(preferences.getString("latitude", "0.0"));
         workAddress.shortcode = preferences.getString("short_code", null);
+    }
+
+    public static void saveParseUserState(Map<String, String> parseState) {
+        synchronized (sync) {
+            try {
+                SharedPreferences preferences = ApplicationLoader.appContext.getSharedPreferences("parse", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                for (Map.Entry<String, String> entry : parseState.entrySet()) {
+                    editor.putString(entry.getKey(), entry.getValue());
+                }
+                editor.commit();
+            } catch (Exception e) {
+                FileLog.e("tmessages", e);
+            }
+        }
     }
 
 }

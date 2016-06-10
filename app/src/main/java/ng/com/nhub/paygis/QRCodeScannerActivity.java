@@ -1,6 +1,7 @@
 package ng.com.nhub.paygis;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -15,6 +16,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
@@ -25,6 +27,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dlazaro66.qrcodereaderview.QRCodeReaderView;
+
+import ng.com.nhub.paygis.etc.BuildVars;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class QRCodeScannerActivity extends AppCompatActivity implements QRCodeReaderView.OnQRCodeReadListener {
 
@@ -37,6 +42,10 @@ public class QRCodeScannerActivity extends AppCompatActivity implements QRCodeRe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(BuildVars.DEBUG_VERSION){
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            setTheme(R.style.AppDebugTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qrcode_scanner);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -183,5 +192,10 @@ public class QRCodeScannerActivity extends AppCompatActivity implements QRCodeRe
         if(decoderView != null) {
             decoderView.getCameraManager().stopPreview();
         }
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

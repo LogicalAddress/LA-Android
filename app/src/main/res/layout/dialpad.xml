@@ -12,7 +12,7 @@
 -->
 <!-- Dialpad in the Phone app. -->
 
-    <!--Former Dialpad uses in the tableLayout android:background="@drawable/dialpad_background"-->
+<!--Former Dialpad uses in the tableLayout android:background="@drawable/dialpad_background"-->
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dialpad"
@@ -24,8 +24,9 @@
     android:paddingStart="5dip"
     android:paddingEnd="5dip"
     android:paddingBottom="10dip"
+    android:background="#FFFFFF"
     android:layoutDirection="ltr"
-    tools:showIn="@layout/fragment_trace_target">
+    tools:showIn="@layout/fragment_dialpad">
 
     <TableRow
         android:layout_height="0px"
