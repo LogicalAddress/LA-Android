@@ -1,0 +1,79 @@
+apply plugin: 'com.android.application'
+
+repositories {
+    mavenCentral()
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+def debugKeyAlias = properties.getProperty('debug.KeyAlias')
+def debugKeyPassword = properties.getProperty('debug.KeyPassword')
+def debugStoreFile = properties.getProperty('debug.StoreFile')
+def debugStorePassword = properties.getProperty('debug.StorePassword')
+
+def releaseKeyAlias = properties.getProperty('release.KeyAlias')
+def releaseKeyPassword = properties.getProperty('release.KeyPassword')
+def releaseStoreFile = properties.getProperty('release.StoreFile')
+def releaseStorePassword = properties.getProperty('release.StorePassword')
+
+android {
+
+    signingConfigs {
+        DebugConfig {
+            keyAlias debugKeyAlias
+            keyPassword debugKeyPassword
+            storeFile file(debugStoreFile)
+            storePassword debugStorePassword
+        }
+        ReleaseConfig {
+            keyAlias releaseKeyAlias
+            keyPassword releaseKeyPassword
+            storeFile file(releaseStoreFile)
+            storePassword releaseStorePassword
+        }
+    }
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
+    defaultConfig {
+        applicationId "ng.com.nhub.paygis"
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionCode 7
+        versionName "1.0"
+
+//        multiDexEnabled true
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.ReleaseConfig
+            zipAlignEnabled true
+        }
+        debug {
+            signingConfig signingConfigs.DebugConfig
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    //    compile 'com.google.android.gms:play-services:8.4.0'
+    //compile 'com.google.maps.android:android-maps-utils:0.4+'
+    //    compile 'de.greenrobot:eventbus:2.4.0'
+//    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'com.android.support:cardview-v7:23.2.1'
+//    compile 'com.google.apis:google-api-services-analytics:v3-rev122-1.21.0'
+//    compile 'com.google.android.gms:play-services-gcm:8.3.0'
+//    compile 'com.google.android.gms:play-services-analytics:8.3.0'
+    compile 'com.google.android.gms:play-services-maps:8.4.0'
+    compile 'com.android.support:design:23.2.1'
+    compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:1.0.0'
+    compile 'com.squareup.okhttp3:okhttp:3.0.0'
+    compile 'com.getbase:floatingactionbutton:1.10.1'
+
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
+}

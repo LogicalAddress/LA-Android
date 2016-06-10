@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <!-- There is no support for fragment_home_register like home and work screens - In the future, this is the content to be included-->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/beforeCreateWork"
+        android:layout_marginTop="8dp"
+
+        android:id="@+id/beforeCreateWork"
+        android:layout_gravity="top"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:textColor="#a3abb2"
+        android:textSize="40sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/work_title"
+        android:layout_marginTop="16dp"
+
+        android:id="@+id/twork_name"
+        android:layout_gravity="top"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:textColor="#ff757575"
+        android:textSize="14sp"
+
+        android:layout_below="@+id/beforeCreateWork"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10"
+        android:id="@+id/work_name"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_weight="1"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="24dp"
+        android:maxLines="3"
+        android:textSize="18sp"
+        android:textColor="#0d0c0c"
+
+        android:layout_below="@+id/twork_name"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/physicalAddress"
+        android:layout_marginTop="16dp"
+
+        android:id="@+id/physicalAddress"
+        android:layout_gravity="top"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:textColor="#ff757575"
+        android:textSize="14sp"
+
+        android:layout_below="@+id/work_name"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10"
+        android:id="@+id/workAddress"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_weight="1"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="24dp"
+        android:maxLines="3"
+        android:textSize="18sp"
+        android:textColor="#0d0c0c"
+
+        android:layout_below="@+id/physicalAddress"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/textCreateWork"
+        android:layout_marginTop="8dp"
+
+        android:id="@+id/textCreateWork"
+        android:layout_gravity="top"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:textColor="#000306"
+        android:textSize="14sp"
+
+        android:layout_below="@+id/workAddress"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/textCity"
+        android:layout_marginTop="8dp"
+
+        android:id="@+id/textCity"
+        android:layout_gravity="top"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:textColor="#a3abb2"
+        android:textSize="14sp"
+
+        android:layout_below="@+id/textCreateWork"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10"
+        android:id="@+id/city"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_weight="1"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="24dp"
+        android:maxLines="3"
+        android:textSize="18sp"
+        android:textColor="#0d0c0c"
+
+        android:layout_below="@+id/textCity"/>
+
+
+    <TextView android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/regbtn_states"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/city"
+        android:textSize="18sp"
+        android:textColor="#ffffff"
+        android:gravity="center"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="@string/btn_create_la_text"
+        android:id="@+id/btnCreateAddress"/>
+
+</RelativeLayout>
+    </ScrollView>

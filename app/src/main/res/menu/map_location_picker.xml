@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="ng.com.nhub.paygis.MapLocationPickerActivity">
+
+    <item android:id="@+id/action_location_search"
+        android:icon="@drawable/ic_location_searching_white_24dp"
+        android:title="@string/gps_search"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/action_location_done"
+        android:icon="@drawable/ic_done_all_white_24dp"
+        android:title="@string/gps_done"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_back"
+        android:orderInCategory="100"
+        android:title="@string/action_back"
+        app:showAsAction="never" />
+</menu>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/action_scan"
+        android:icon="@drawable/ic_find_replace_white_24dp"
+        android:title="@string/action_scan"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_domain_24dp"
+        android:title="Home"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/nav_work"
+        android:icon="@drawable/ic_wallet_giftcard_24dp"
+        android:title="Work"
+        app:showAsAction="never"/>
+
+</menu>

@@ -1,0 +1,214 @@
+<resources>
+    <!--Do Not Transalate app_name-->
+    <string name="app_name">Logical Address</string>
+    <string name="translated_app_name">Logical Address</string>
+    <string name="address_label">Logical Address</string>
+    <string name="LanguageName">English</string>
+    <string name="LanguageNameInEnglish">English</string>
+    <string name="LanguageCode">en</string>
+    <string name="app_slogan">go places with confidence</string>
+    <string name="home">Home</string>
+    <string name="work">Work</string>
+    <string name="trace_map">Trace</string>
+    <string name="map">Map</string>
+    <string name="OK">OK</string>
+    <string name="Cancel">Cancel</string>
+    <string name="mobile">Phone Number</string>
+    <string name="beforeqrmessage">Your Logical Address</string>
+    <string name="requestShortCode">Click here to request an alternative numeric logical address for free.</string>
+    <string name="password">Secret Password</string>
+    <string name="login">Login</string>
+    <string name="iLive">I live here. Share or Scan the image with the Logical Address App to visit.</string>
+    <string name="iWork">I work here. Share or Scan the image with the Logical Address App to visit.</string>
+    <string name="editLocation">Save Address</string>
+    <string name="register">Register</string>
+    <string name="registerText">Don\'t have an account? Sign Up.</string>
+    <string name="securityText">Since Logical Address has zero knowledge of its users, it is recommended to provide answers to the following security questions</string>
+    <string name="loginText">You have an account? Login</string>
+    <string name="physicalAddress">Your Physical Address</string>
+    <!--<string name="createAddress">Auto Create</string>-->
+    <string name="textCreateHome">The physical address represents where you are currently living.</string>
+    <string name="textCreateWork">The physical address represents where you are currently working.</string>
+    <string name="beforeCreateHome">At Home?</string>
+    <string name="beforeCreateWork">At Work?</string>
+    <string name="textCity">City</string>
+    <string name="traceLogical">Trace!</string>
+    <string name="tlogicalAddress">Be Logical!</string>
+    <string name="descLogicalAddress">Dial to locate houses, people, and places accurately with their logical addresses.</string>
+    <string name="scanMessage">Place the QR code inside the scan window to scan</string>
+    <string name="QRScanError">"Not a valid QR Code"</string>
+    <string name="edit_location">Edit Location</string>
+    <string name="add_to_contact">Add Address to a contact</string>
+
+    <string name="gps_search">Search</string>
+    <string name="gps_done">Done</string>
+    <string name="action_next">Done</string>
+    <string name="work_title">Organization</string>
+
+    <string name="InviteText">Download Logical Address for free. --> http://play.google.com/store/apps/details?id=ng.com.nhub.paygis</string>
+    <string name="WhatsAppNotInstalled">WhatsApp not installed</string>
+
+    <string name="Loading">Loading</string>
+    <string name="LoadingWait">Loading, please wait</string>
+    <string name="GPSSettingsOff">Your GPS is off. Would you like to open GPS setting?</string>
+    <string name="about">Made with love @ nHub Nigeria</string>
+    <string name="LoadingMap">Loading Map..</string>
+
+    <string name="review_entries">Please review your entries</string>
+    <string name="general_error">An Error Occurred</string>
+    <string name="unknown_error">An unknown error occured, Try again later</string>
+    <string name="session_expired">Session Has Expired</string>
+    <string name="try_again">Please try again later.</string>
+    <string name="app_chooser">Choose an app</string>
+    <string name="select_location_first">Select your location first using the button below</string>
+    <string name="login_error">Unable to login</string>
+    <string name="roof_top">Move the marker to your roof top</string>
+    <string name="target_roof_top">Target\'s roof top</string>
+    <string name="your_roof_top">Your place</string>
+    <string name="incorrect_logical_address">The logical address you have dialed is incorrect</string>
+    <string name="notification_message">Calling address.....</string>
+    <string name="dialing">Calling address.....</string>
+    <string name="user_exist">Sorry, The provided phone or username is taken</string>
+    <string name="btn_create_la_text">Create Logical Address</string>
+
+    <!--Intro view-->
+    <string name="Page1Title">Logical Address</string>
+    <string name="Page2Title">Flexible</string>
+    <string name="Page3Title">Private</string>
+    <string name="Page1Message">Dial to locate anyone anywhere accurately. It is <b>free</b> and <b>secure</b>.</string>
+    <string name="Page2Message"><b>One</b> Logical Address to rule all <br />Your Physical Address</string>
+    <string name="Page3Message"><b>Logical Address</b> has zero Knowledge of you.</string>
+    <string name="StartLocating">Start Up</string>
+
+    <!-- Security Questions -->
+    <string name="animalQuestion">If you were to be an animal, which would you?</string>
+    <string name="motherQuestion">What is the second to the last letter of your mother\'s maiden name?</string>
+
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_register">Register</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_home_register">Register Home</string>
+    <string name="title_activity_work_register">Register Work</string>
+    <string name="title_activity_trace_target">Trace Target</string>
+    <string name="title_activity_intro">Welcome</string>
+    <string name="title_activity_principal">Logical Address</string>
+
+    <string name="action_scan">Scan</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_back">Back</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+
+    <!-- String describing the image on ImageButton one
+
+        Note: AccessibilityServices use this attribute to announce what the view represents.
+              This is especially valuable for views without textual representation like ImageView.
+    -->
+    <string name="description_image_button_one">one</string>
+
+    <!-- String describing the image on ImageButton two
+
+        Note: AccessibilityServices use this attribute to announce what the view represents.
+              This is especially valuable for views without textual representation like ImageView.
+    -->
+    <string name="description_image_button_two">two</string>
+
+    <!-- String describing the image on ImageButton three
+
+        Note: AccessibilityServices use this attribute to announce what the view represents.
+              This is especially valuable for views without textual representation like ImageView.
+    -->
+    <string name="description_image_button_three">three</string>
+
+    <!-- String describing the image on ImageButton four
+
+        Note: AccessibilityServices use this attribute to announce what the view represents.
+              This is especially valuable for views without textual representation like ImageView.
+    -->
+    <string name="description_image_button_four">four</string>
+
+    <!-- String describing the image on ImageButton five
+
+        Note: AccessibilityServices use this attribute to announce what the view represents.
+              This is especially valuable for views without textual representation like ImageView.
+    -->
+    <string name="description_image_button_five">five</string>
+
+    <!-- String describing the image on ImageButton six
+
+        Note: AccessibilityServices use this attribute to announce what the view represents.
+              This is especially valuable for views without textual representation like ImageView.
+    -->
+    <string name="description_image_button_six">six</string>
+
+    <!-- String describing the image on ImageButton seven
+
+        Note: AccessibilityServices use this attribute to announce what the view represents.
+              This is especially valuable for views without textual representation like ImageView.
+    -->
+    <string name="description_image_button_seven">seven</string>
+
+    <!-- String describing the image on ImageButton eight
+
+        Note: AccessibilityServices use this attribute to announce what the view represents.
+              This is especially valuable for views without textual representation like ImageView.
+    -->
+    <string name="description_image_button_eight">eight</string>
+
+    <!-- String describing the image on ImageButton nine
+
+        Note: AccessibilityServices use this attribute to announce what the view represents.
+              This is especially valuable for views without textual representation like ImageView.
+    -->
+    <string name="description_image_button_nine">nine</string>
+
+    <!-- String describing the image on ImageButton star
+
+        Note: AccessibilityServices use this attribute to announce what the view represents.
+              This is especially valuable for views without textual representation like ImageView.
+    -->
+    <string name="description_image_button_star">star</string>
+
+    <!-- String describing the image on ImageButton zero
+
+        Note: AccessibilityServices use this attribute to announce what the view represents.
+              This is especially valuable for views without textual representation like ImageView.
+    -->
+    <string name="description_image_button_zero">zero</string>
+
+    <!-- String describing the image on ImageButton pound
+
+        Note: AccessibilityServices use this attribute to announce what the view represents.
+              This is especially valuable for views without textual representation like ImageView.
+    -->
+    <string name="description_image_button_pound">pound</string>
+
+    <!-- String describing the Delete/Backspace ImageButton
+
+         Used by AccessibilityService to announce the purpose of the button.
+    -->
+    <string name="description_delete_button">backspace</string>
+
+    <!-- String describing the Dial ImageButton
+
+         Used by AccessibilityService to announce the purpose of the button.
+    -->
+    <string name="description_dial_button">dial</string>
+    <string name="title_activity_auth">Authentication</string>
+    <string name="title_activity_home">Home</string>
+    <string name="title_activity_work">Work</string>
+    <string name="title_activity_about">About</string>
+    <string name="title_activity_qrcode_scanner">Code Scanner</string>
+    <string name="title_activity_map_preview">Map Preview</string>
+    <string name="title_activity_map_location_picker">Location Picker</string>
+    <string name="title_activity_trace_map_fullscreen">Logical Address</string>
+    <string name="navigate">Start Navigation</string>
+    <string name="show_tracks">Path to target</string>
+    <string name="change_map_type">Change map type</string>
+    <string name="share">Share</string>
+    <string name="show_location">Show location</string>
+    <string name="title_activity_test">TestActivity</string>
+
+</resources>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_domain_24dp"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_work"
+            android:icon="@drawable/ic_wallet_giftcard_24dp"
+            android:title="Work" />
+        <!--<item-->
+            <!--android:id="@+id/nav_create_home"-->
+            <!--android:icon="@drawable/ic_home_black_24dp"-->
+            <!--android:title="Register Home" />-->
+        <!--<item-->
+            <!--android:id="@+id/nav_create_work"-->
+            <!--android:icon="@drawable/ic_work_black_24dp"-->
+            <!--android:title="Register Work" />-->
+
+        <!--<item-->
+        <!--android:id="@+id/nav_trace_map"-->
+        <!--android:icon="@drawable/ic_work_black_24dp"-->
+        <!--android:title="@string/title_activity_trace_map_fullscreen" />-->
+
+    </group>
+
+    <item android:title="Others">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_share_white_24dp"
+                android:title="Share" />
+            <!--<item-->
+                <!--android:id="@+id/nav_setting"-->
+                <!--android:icon="@drawable/ic_settings_applications_black_48dp"-->
+                <!--android:title="Settings" />-->
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@drawable/ic_announcement_24dp"
+                android:title="About" />
+        </menu>
+    </item>
+
+</menu>
